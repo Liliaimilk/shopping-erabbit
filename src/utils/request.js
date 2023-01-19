@@ -10,8 +10,9 @@ instance.interceptors.request.use((config) => {
     // 1.获取用户信息
 
     // 2.判断是否有token
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+    // eslint-disable-next-line no-constant-condition
+    if (1) {
+        config.headers.Authorization = `Bearer ${1}`
     }
     return config;
 }, (error) => {

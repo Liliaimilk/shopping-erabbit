@@ -5,7 +5,8 @@ export default {
             profile: {
                 name: 'lili',
                 age: 19,
-                sex: '男'
+                sex: '男',
+                token: "1234567"
             }
         }
     },

@@ -1,11 +1,10 @@
 <template>
-  <div>首页</div>
+  <div>分类页面</div>
 </template>
 
 <script>
 export default {
-  name: "AppIndex",
-  components: {},
+  name: "TopCartgory",
 };
 </script>
 

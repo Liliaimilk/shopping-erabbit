@@ -11,7 +11,7 @@ export default createStore({
         plugins: [
             createPersistence({
                 key: 'erabbir-pc',
-                paths: 'user'
+                paths: ['user', 'cart'],
             })
         ]
     }

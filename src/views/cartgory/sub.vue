@@ -1,11 +1,10 @@
 <template>
-  <div>首页</div>
+  <div>sub详情页面</div>
 </template>
 
 <script>
 export default {
-  name: "AppIndex",
-  components: {},
+  name: "SubCartgory",
 };
 </script>
 

@@ -10,6 +10,14 @@ export default {
     mutations: {
         cartgoryMsg(state, payload) {
             state.list = payload
+        },
+        hide(state, item) {
+            const hide = state.list.find(sub => sub.id === item.id);
+            hide.open = false;
+        },
+        show(state, item) {
+            const show = state.list.find(sub => sub.id === item.id);
+            show.open = true
         }
     },
     actions: {

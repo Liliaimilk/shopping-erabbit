@@ -1,13 +1,21 @@
 <template>
-  <div>首页</div>
+  <div class="home-enter">
+    <HomeCategory />
+  </div>
 </template>
 
 <script>
+import HomeCategory from "./components/home-category.vue";
 export default {
   name: "AppIndex",
-  components: {},
+  components: {
+    HomeCategory,
+  },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.home-enter {
+  height: 500px;
+}
 </style>

@@ -1,15 +1,20 @@
 <template>
   <div class="home-enter">
-    <HomeCategory />
+    <div class="container">
+      <HomeCategory />
+      <HomeBanner />
+    </div>
   </div>
 </template>
 
 <script>
 import HomeCategory from "./components/home-category.vue";
+import HomeBanner from "./components/home-banner.vue";
 export default {
   name: "AppIndex",
   components: {
     HomeCategory,
+    HomeBanner,
   },
 };
 </script>

@@ -1,7 +1,5 @@
 <template>
-  <div class="home-banner">
-    <XtxCarousel :imgInfo="sliders" />
-  </div>
+  <div class="home-banner"><XtxCarousel :imgInfo="sliders" auto-play /></div>
 </template>
 
 <script>
@@ -12,7 +10,7 @@ export default {
   setup() {
     const sliders = ref([]);
     findBanner().then((data) => {
-      console.log(data, "15");
+      // console.log(data, "15");
       sliders.value = data.result;
     });
     return { sliders };

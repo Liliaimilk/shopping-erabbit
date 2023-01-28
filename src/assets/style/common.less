@@ -102,3 +102,20 @@ ul {
     line-height: 0;
     clear: both;
 }
+
+// 骨架屏样式
+.fade {
+    &-leave {
+        opacity: 1;
+
+        &-active {
+            width: 100%;
+            transition: all 0.5s;
+            z-index: 1;
+        }
+
+        &-to {
+            opacity: 0;
+        }
+    }
+}

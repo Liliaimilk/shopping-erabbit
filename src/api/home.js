@@ -13,3 +13,13 @@ export const findBanner = () => {
 export const findNew = () => {
     return request('/home/new', 'get')
 }
+
+// 获得人气推荐
+export const findHot = () => {
+    return request('/home/hot', 'get')
+}
+
+// 获取商品信息
+export const findGoods = () => {
+    return request('home/goods', 'get')
+}

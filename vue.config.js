@@ -4,7 +4,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
 
   // 安装style-resources-loader
-  // 将全部的less文件注入到style中
+  // 将全部的less文件自动注入到style中
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',

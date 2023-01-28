@@ -6,12 +6,13 @@
       <!-- 轮播图 -->
       <HomeBanner />
       <!-- 面板 -->
-      <HomePanel title="新鲜好物" subTitle="新鲜出炉" subtwoTitle="品质靠谱">
-        <template v-slot:right>
-          <XtxMore />
-        </template>
-        <!-- 面板内容 -->
-      </HomePanel>
+      <HomeNew />
+      <!-- 人气推荐 -->
+      <HomeHot />
+      <!-- 热门品牌 -->
+      <HomeBrand />
+      <!-- 商品板块 -->
+      <HomeProduct />
     </div>
   </div>
 </template>
@@ -19,19 +20,22 @@
 <script>
 import HomeCategory from "./components/home-category.vue";
 import HomeBanner from "./components/home-banner.vue";
-import HomePanel from "./components/home-panel.vue";
+import HomeNew from "./components/home-new.vue";
+import HomeHot from "./components/home-hot.vue";
+import HomeBrand from "./components/home-brand.vue";
+import HomeProduct from "./components/home-product.vue";
 export default {
   name: "AppIndex",
   components: {
     HomeCategory,
     HomeBanner,
-    HomePanel,
+    HomeNew,
+    HomeHot,
+    HomeBrand,
+    HomeProduct,
   },
 };
 </script>
 
 <style lang="less" scoped>
-.home-enter {
-  height: 500px;
-}
 </style>

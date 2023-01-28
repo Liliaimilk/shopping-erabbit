@@ -104,8 +104,8 @@ export default {
     });
 
     // 品牌
-    findBrand(9).then((data) => {
-      console.log(data, "82");
+    findBrand(6).then((data) => {
+      // console.log(data, "82");
       brand.brands = data.result;
     });
     return { mountList, gList, categoryId };

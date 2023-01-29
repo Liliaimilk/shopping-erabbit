@@ -1,6 +1,6 @@
 <template>
-  <div class="home-product">
-    <HomePanel :title="item.name" v-for="item in result" :key="item.id">
+  <div class="home-product" ref="target">
+    <HomePanel :title="item.name" v-for="item in goods" :key="item.id">
       <template v-slot:right>
         <div class="sub">
           <RouterLink to="/" v-for="sub in item.children" :key="sub.id">{{
@@ -11,15 +11,16 @@
       </template>
       <div class="box">
         <RouterLink class="cover" to="/">
-          <img :src="item.picture" alt="" />
+          <img v-lazy="item.picture" alt="" />
           <strong class="label">
             <span>{{ item.name }}馆</span>
             <span>{{ item.saleInfo }}</span>
           </strong>
         </RouterLink>
         <ul class="goods-list">
-          <li v-for="i in item.length" :key="i">
-            <HomeGoods />
+          <li v-for="i in item.goods" :key="i">
+            <!-- 明日填充goods组件 -->
+            <HomeGoods :goodsInfo="i" />
           </li>
         </ul>
       </div>
@@ -29,9 +30,10 @@
 
 <script>
 import { findGoods } from "@/api/home";
-import { ref } from "vue";
+// import { ref } from "vue";
 import HomeGoods from "./home-goods.vue";
 import HomePanel from "./home-panel.vue";
+import { useLazyData } from "@/hooks";
 export default {
   name: "HomeProduct",
   components: {
@@ -39,12 +41,14 @@ export default {
     HomePanel,
   },
   setup() {
-    const result = ref([]);
-    findGoods().then((data) => {
-      console.log(data.result, "29");
-      result.value = data.result;
-    });
-    return { result };
+    // const result = ref([]);
+    // findGoods().then((data) => {
+    //   console.log(data.result, "29");
+    //   result.value = data.result;
+    // });
+    // 组件懒加载
+    const { target, goods } = useLazyData(findGoods);
+    return { goods, target };
   },
 };
 </script>

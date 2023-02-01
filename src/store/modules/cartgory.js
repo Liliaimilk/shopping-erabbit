@@ -27,7 +27,7 @@ export default {
             data.result.forEach(top => {
                 top.open = false
             })
-            console.log(data.result, '17');
+            // console.log(data.result, '17');
 
             commit('cartgoryMsg', data.result)
         }

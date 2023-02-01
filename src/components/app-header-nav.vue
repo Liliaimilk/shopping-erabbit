@@ -50,9 +50,10 @@ export default {
 .app-header-nav {
   width: 820px;
   display: flex;
+  justify-content: space-around;
   padding-left: 40px;
   position: relative;
-  z-index: 998;
+  z-index: 999;
   > li {
     margin-right: 40px;
     width: 38px;
@@ -63,48 +64,50 @@ export default {
       height: 32px;
       display: inline-block;
     }
-    &:hover {
+    &:hover,
+    &.active {
       > a {
         color: @xtxColor;
         border-bottom: 1px solid @xtxColor;
       }
     }
   }
-  .layer {
-    &.open {
-      height: 132px;
-      opacity: 1;
-    }
-    width: 1240px;
-    background-color: #fff;
-    position: absolute;
-    left: -200px;
-    top: 56px;
-    height: 0;
-    overflow: hidden;
-    opacity: 0;
-    box-shadow: 0 0 5px #ccc;
-    transition: all 0.2s 0.1s;
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 0 70px;
-      align-items: center;
-      height: 132px;
-      li {
-        width: 110px;
-        text-align: center;
-        img {
-          width: 60px;
-          height: 60px;
-        }
+}
+
+.layer {
+  &.open {
+    height: 132px;
+    opacity: 1;
+  }
+  width: 1240px;
+  background-color: #fff;
+  position: absolute;
+  left: -200px;
+  top: 56px;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  box-shadow: 0 0 5px #ccc;
+  transition: all 0.2s 0.1s;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 70px;
+    align-items: center;
+    height: 132px;
+    li {
+      width: 110px;
+      text-align: center;
+      img {
+        width: 60px;
+        height: 60px;
+      }
+      p {
+        padding-top: 10px;
+      }
+      &:hover {
         p {
-          padding-top: 10px;
-        }
-        &:hover {
-          p {
-            color: @xtxColor;
-          }
+          color: @xtxColor;
         }
       }
     }

@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .home-banner {
   width: 1240px;
   height: 500px;
@@ -26,5 +26,10 @@ export default {
   left: 0;
   top: 0;
   z-index: 98;
+  .xtx-carousel {
+    .carousel-indicator {
+      padding-left: 250px;
+    }
+  }
 }
 </style>

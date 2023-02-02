@@ -139,7 +139,7 @@ export default {
       z-index: 2;
       width: 100%;
       text-align: center;
-      padding-left: 250px;
+      // padding-left: 250px;
       span {
         display: inline-block;
         width: 12px;

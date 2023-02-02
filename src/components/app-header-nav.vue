@@ -53,7 +53,7 @@ export default {
   justify-content: space-around;
   padding-left: 40px;
   position: relative;
-  z-index: 999;
+  z-index: 998;
   > li {
     margin-right: 40px;
     width: 38px;

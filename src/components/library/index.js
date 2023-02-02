@@ -1,19 +1,27 @@
 // 封装插件
-import XtxSkeleton from "@/components/library/xtx-skeleton.vue"
-import XtxCarousel from "@/components/library/xtx-carousel.vue"
-import XtxMore from "@/components/library/xtx-more.vue"
+// import XtxSkeleton from "@/components/library/xtx-skeleton.vue"
+// import XtxCarousel from "@/components/library/xtx-carousel.vue"
+// import XtxMore from "@/components/library/xtx-more.vue"
 import defaultImg from "@/assets/images/qrcode.jpg"
-import XtxBread from "@/components/library/xtx-bread.vue"
-import XtxBreadItem from "@/components/library/xtx-bread-item.vue"
+// import XtxBread from "@/components/library/xtx-bread.vue"
+// import XtxBreadItem from "@/components/library/xtx-bread-item.vue"
 // vue2.0插件写法要素：导出一个对象，有install函数，默认传入了Vue构造函数，Vue基础之上扩展
 // vue3.0插件写法要素：导出一个对象，有install函数，默认传入了app应用实例，app基础之上扩展
 export default {
     install(app) {
-        app.component(XtxSkeleton.name, XtxSkeleton);
-        app.component(XtxCarousel.name, XtxCarousel);
-        app.component(XtxMore.name, XtxMore)
-        app.component(XtxBread.name, XtxBread)
-        app.component(XtxBreadItem.name, XtxBreadItem)
+        // app.component(XtxSkeleton.name, XtxSkeleton);
+        // app.component(XtxCarousel.name, XtxCarousel);
+        // app.component(XtxMore.name, XtxMore)
+        // app.component(XtxBread.name, XtxBread)
+        // app.component(XtxBreadItem.name, XtxBreadItem)
+
+        // 自动批量注册组件 require.context()是webpack自动导入的一个api
+        const importFn = require.context('./', false, /\.vue$/);
+        importFn.keys().forEach((item) => {
+            const component = importFn(item).default;
+            app.component(component.name, component)
+            // console.log(component, '22');
+        })
         // 自定义指令
         defineDirective(app)
     }

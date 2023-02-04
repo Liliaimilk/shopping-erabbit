@@ -4,9 +4,11 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <XtxBreadItem :to="`/category/${subList.id}`">{{
-          subList.name
-        }}</XtxBreadItem>
+        <Transition name="fade-right" mode="out-in">
+          <XtxBreadItem :to="`/category/${subList.id}`" :key="subList.id">{{
+            subList.name
+          }}</XtxBreadItem>
+        </Transition>
       </XtxBread>
 
       <!-- 轮播图 -->
@@ -66,11 +68,13 @@ export default {
     watch(
       () => route.params.id,
       (newVal) => {
-        // 获取顶级单个分类
-        findTopCategory(newVal).then((data) => {
-          console.log(data, "66");
-          subList.value = data.result;
-        });
+        // 获取顶级单个分类 并判断当前id是否与页面一致
+        if (`/category/${newVal}` === route.path) {
+          findTopCategory(newVal).then((data) => {
+            // console.log(data, "66");
+            subList.value = data.result;
+          });
+        }
       },
       { immediate: true }
     );

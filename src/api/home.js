@@ -33,3 +33,9 @@ export const findSpecial = () => {
 export const findTopCategory = (id) => {
     return request('/category', 'get', { id })
 }
+
+
+// 获取id筛选信息
+export const findSubCategoryFilter = (id) => {
+    return request('/category/sub/filter', 'get', { id })
+}

@@ -14,13 +14,17 @@ const routes = [{
         component: TopCartgory
     }, {
         path: '/category/sub/:id',
-        component: import('@/views/cartgory/sub.vue')
+        component: () => import('@/views/cartgory/sub.vue')
 
     }]
 }];
 const router = createRouter({
     history: createWebHashHistory(),
-    routes
+    routes,
+    scrollBehavior() {
+        // 始终滚动到顶部
+        return { top: 0 }
+    },
 
 });
 export default router;

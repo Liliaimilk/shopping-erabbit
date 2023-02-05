@@ -9,6 +9,7 @@
           v-for="item in subFilterData.brands"
           :key="item.id"
           :class="{ active: subFilterData.selectBrands === item.id }"
+          @click="changeBrands(item.id)"
           >{{ item.name }}</a
         >
       </div>
@@ -20,7 +21,8 @@
           href="javascript:;"
           v-for="sub in top.properties"
           :key="sub.id"
-          :class="{ active: subFilterData.selectSub === sub.id }"
+          :class="{ active: top.selectSub === sub.id }"
+          @click="changeFilter(top.id, sub.id)"
           >{{ sub.name }}</a
         >
       </div>
@@ -41,7 +43,8 @@ import { findSubCategoryFilter } from "@/api/home";
 import { ref, watch } from "vue";
 export default {
   name: "SubFilter",
-  setup() {
+  emits: ["changeFn"],
+  setup(props, { emit }) {
     const route = useRoute();
     const loading = ref(false);
     const subFilterData = ref(null);
@@ -56,19 +59,64 @@ export default {
             // 添加数据
             data.result.selectBrands = null;
             data.result.brands.unshift({ id: null, name: "全部" });
-            data.result.selectSub = null;
             data.result.saleProperties.forEach((item) => {
+              item.selectSub = null;
               item.properties.unshift({ id: null, name: "全部" });
             });
             subFilterData.value = data.result;
             loading.value = false;
-            console.log(data.result);
+            // console.log(data.result, "66");
           });
         }
       },
       { immediate: true }
     );
-    return { subFilterData, loading };
+
+    // 获取筛选区选中条件
+    const getFilterParams = () => {
+      const brandsData = {};
+      const filterData = [];
+      // 品牌id放入
+      brandsData.brandId = subFilterData.value.selectBrands;
+      // 销售属性name和属性name放入
+      subFilterData.value.saleProperties.forEach((item) => {
+        if (item.selectSub) {
+          const attrs = item.properties.find(
+            (sub) => sub.id === item.selectSub
+          );
+          filterData.push({ groupName: item.name, propertyName: attrs.name });
+        }
+        // console.log(filterData, "88");
+      });
+      if (filterData.length) {
+        brandsData.attrs = filterData;
+        console.log(brandsData, "92");
+      }
+      return brandsData;
+    };
+
+    //品牌选择样式
+    const changeBrands = (item) => {
+      subFilterData.value.selectBrands = item;
+      emit("changeFn", getFilterParams());
+    };
+
+    // 筛选选中样式
+    const changeFilter = (item, sub) => {
+      subFilterData.value.saleProperties.forEach((i) => {
+        if (i.id === item) {
+          i.selectSub = sub;
+        }
+      });
+      console.log("1");
+      emit("changeFn", getFilterParams());
+    };
+    return {
+      subFilterData,
+      loading,
+      changeBrands,
+      changeFilter,
+    };
   },
 };
 </script>

@@ -26,7 +26,7 @@ export default {
     const checked = useVModel(props, "modelValue", emit);
     // const checked = ref(false);
     const changeChecked = () => {
-      console.log("1");
+      // console.log("1");
       checked.value = !checked.value;
     };
     return { checked, changeChecked };

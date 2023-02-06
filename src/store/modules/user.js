@@ -3,10 +3,12 @@ export default {
     state() {
         return {
             profile: {
-                name: 'lili',
-                age: 19,
-                sex: '男',
-                token: "1234567"
+                id: '',
+                avatar: '',
+                nickname: '',
+                account: '',
+                mobile: '',
+                token: ''
             }
         }
     },

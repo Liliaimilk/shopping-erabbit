@@ -10,10 +10,12 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
     // 1.获取用户信息
 
-    // 2.判断是否有token
     // eslint-disable-next-line no-constant-condition
-    if (1) {
-        config.headers.Authorization = `Bearer ${1}`
+    const { profile } = store.state.user
+    // 2. 判断是否有token
+    if (profile.token) {
+        // 3. 设置token
+        config.headers.Authorization = `Bearer ${profile.token}`
     }
     return config;
 }, (error) => {
@@ -24,15 +26,16 @@ instance.interceptors.request.use((config) => {
 // 响应拦截
 
 instance.interceptors.response.use((response) => {
-    if (response.status == 401) {
+
+    return response.data
+}, (error) => {
+    if (error.response && error.response.status === 401) {
         // 清除无效用户信息
 
         // 返回登录页
         store.commit('user/setUser', {})
         // 获取传递参数
     }
-    return response.data
-}, (error) => {
     return Promise.reject(error);
 })
 

@@ -1,0 +1,87 @@
+<template>
+  <div class="xtx-city" ref="target">
+    <div class="select" @click="toggleDialog" :class="{ active }">
+      <span class="placeholder">请选择配送地址</span>
+      <span class="value"></span>
+      <i class="iconfont icon-angle-down"></i>
+    </div>
+    <div class="option" v-if="active">
+      <span class="ellipsis" v-for="i in 24" :key="i">北京市</span>
+    </div>
+  </div>
+</template>
+
+<script>
+import { onClickOutside } from "@vueuse/core";
+import { ref } from "vue";
+export default {
+  name: "XtxCity",
+  setup() {
+    const active = ref(false);
+    // 设置隐藏按钮
+    const toggleDialog = () => {
+      active.value = !active.value;
+      console.log(active.value);
+    };
+
+    //点击外部元素失焦关闭窗口
+    const target = ref(null);
+    onClickOutside(target, () => {
+      active.value = false;
+    });
+    return { active, toggleDialog, target };
+  },
+};
+</script>
+
+<style scoped lang="less">
+.xtx-city {
+  display: inline-block;
+  position: relative;
+  z-index: 400;
+  .select {
+    border: 1px solid #e4e4e4;
+    height: 30px;
+    padding: 0 5px;
+    line-height: 28px;
+    cursor: pointer;
+    &.active {
+      background: #fff;
+    }
+    .placeholder {
+      color: #999;
+    }
+    .value {
+      color: #666;
+      font-size: 12px;
+    }
+    i {
+      font-size: 12px;
+      margin-left: 5px;
+    }
+  }
+  .option {
+    width: 542px;
+    border: 1px solid #e4e4e4;
+    position: absolute;
+    left: 0;
+    top: 29px;
+    background: #fff;
+    min-height: 30px;
+    line-height: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    > span {
+      width: 130px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 0 3px;
+      &:hover {
+        background: #f5f5f5;
+      }
+    }
+  }
+}
+</style>

@@ -13,7 +13,7 @@
     <dl>
       <dt>配送</dt>
       <dd>至</dd>
-      <dd><XtxCity /></dd>
+      <dd><XtxCity :defaultLocal="defaultLocal" /></dd>
     </dl>
     <dl>
       <dt>服务</dt>
@@ -35,6 +35,10 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const defaultLocal = "北京 北京 北京爷";
+    return { defaultLocal };
   },
 };
 </script>

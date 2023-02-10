@@ -25,7 +25,11 @@
           <GoodsImage :images="goods.mainPictures" />
           <GoodsSales />
         </div>
-        <div class="spec"><GoodsName :goods="goods" /></div>
+        <div class="spec">
+          <GoodsName :goods="goods" />
+          <!-- 规格组件 -->
+          <GoodsSku :skuData="goods" />
+        </div>
       </div>
       <!-- 商品推荐 -->
       <GoodsRelevant />
@@ -49,12 +53,13 @@ import GoodsRelevant from "./components/goods-relevant";
 import GoodsImage from "./components/goods-image.vue";
 import GoodsSales from "./components/goods-sales.vue";
 import GoodsName from "./components/goods-name.vue";
+import GoodsSku from "./components/goods-sku.vue";
 import { findGoods } from "@/api/product";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 import { ref } from "vue";
 export default {
   name: "XtxGoodsPage",
-  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName },
+  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku },
   setup() {
     const goods = getGoods();
     console.log(goods);
@@ -64,8 +69,8 @@ export default {
 // 获取接口数据
 const getGoods = () => {
   const goods = ref(null);
-  const route = useRoute();
-  findGoods(route.params.id).then((data) => {
+  // const route = useRoute();
+  findGoods("1369155859933827074").then((data) => {
     console.log(data, "44");
     goods.value = data.result;
   });

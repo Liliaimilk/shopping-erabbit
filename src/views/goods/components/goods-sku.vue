@@ -4,7 +4,7 @@
       <dt>{{ item.name }}</dt>
       <dd v-for="(sub, i) in item.values" :key="i">
         <img
-          :class="{ selected: sub.selected }"
+          :class="{ selected: sub.selected, disabled: sub.disabled }"
           :src="sub.picture"
           alt=""
           v-if="sub.picture"
@@ -13,7 +13,7 @@
         <span
           v-else
           @click="changeFn(item, sub)"
-          :class="{ selected: sub.selected }"
+          :class="{ selected: sub.selected, disabled: sub.disabled }"
           >{{ sub.name }}</span
         >
       </dd>
@@ -22,6 +22,7 @@
 </template>
 <script>
 // import { ref } from "vue";
+import getPowerSet from "@/vender/powerSet";
 export default {
   name: "GoodsSku",
   props: {
@@ -30,8 +31,15 @@ export default {
       default: () => {},
     },
   },
-  setup() {
+  setup(props) {
+    // 调用
+    const powerMap = getPathMap(props.skuData.skus);
+    console.log(powerMap, "48");
+    // 初始化刷新
+    forbidden(props.skuData.specs, powerMap);
+    // 选中样式
     const changeFn = (item, sub) => {
+      if (sub.disabled) return false;
       if (sub.selected) {
         sub.selected = false;
       } else {
@@ -40,10 +48,62 @@ export default {
         });
         sub.selected = true;
       }
+      //
+      forbidden(props.skuData.specs, powerMap);
     };
 
     return { changeFn };
   },
+};
+// 根据skus得到路径字典对象
+const spliter = "★";
+const getPathMap = (skus) => {
+  const powerMap = {};
+  skus.forEach((item) => {
+    if (item.inventory) {
+      const sku = item.specs.map((sku) => sku.valueName);
+      // console.log(sku);
+      const powerSet = getPowerSet(sku);
+      powerSet.forEach((set) => {
+        const key = set.join(spliter);
+        // 判断值是否存在
+        if (powerMap[key]) {
+          powerMap[key].push(item.id);
+        } else {
+          powerMap[key] = [item.id];
+        }
+      });
+    }
+  });
+  return powerMap;
+};
+
+//得到当前选中规格的数据集合
+const selectedGather = (specs) => {
+  const selectedList = [];
+  specs.forEach((item) => {
+    const selectArr = item.values.find((sub) => sub.selected);
+    selectedList.push(selectArr ? selectArr.name : undefined);
+  });
+  // console.log(selectedList);
+  return selectedList;
+};
+// 更新禁用按钮
+const forbidden = (specs, powerMap) => {
+  console.log(specs);
+  specs.forEach((item, i) => {
+    // 遍历下一个规格时，重新赋值使选中的规格保持不变
+    const selectedList = selectedGather(specs);
+    item.values.forEach((sub) => {
+      if (sub.name === selectedList[i]) return false;
+      selectedList[i] = sub.name;
+      const key = selectedList.filter((v) => v).join(spliter);
+      // console.log(selectedList[i]);
+      // console.log(key);
+      // 查找是否路径字典是否有值
+      sub.disabled = !powerMap[key];
+    });
+  });
 };
 </script>
 <style scoped lang="less">

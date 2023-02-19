@@ -1,15 +1,24 @@
 <template>
   <div class="xtx-carousel" @mouseenter="stop()" @mouseleave="start()">
-    <ul class="carousel-body">
+    <ul class="carousel-body" v-if="imgInfo">
       <li
         class="carousel-item"
         v-for="(item, ind) in imgInfo"
         :key="ind"
         :class="{ fade: index == ind }"
       >
-        <RouterLink to="/">
+        <RouterLink to="/" v-if="item.imgUrl">
           <img :src="item.imgUrl" alt="" />
         </RouterLink>
+
+        <!-- 同类商品推荐轮播图 -->
+        <div class="slider" v-else>
+          <RouterLink to="/" v-for="sub in item" :key="sub.id">
+            <img :src="sub.picture" alt="" />
+            <p class="name ellipsis">{{ sub.desc }}</p>
+            <p class="price">{{ sub.price }}</p>
+          </RouterLink>
+        </div>
       </li>
     </ul>
     <a href="javascript:;" class="carousel-btn prev" @click="next(-1)"
@@ -169,7 +178,7 @@ export default {
       opacity: 0;
       transition: all 0.5s;
       &.prev {
-        left: 270px;
+        left: 20px;
       }
       &.next {
         right: 20px;
@@ -179,6 +188,31 @@ export default {
   &:hover {
     .carousel-btn {
       opacity: 1;
+    }
+  }
+}
+
+.slider {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 40px;
+  > a {
+    width: 240px;
+    text-align: center;
+    img {
+      padding: 20px;
+      width: 230px !important;
+      height: 230px !important;
+    }
+    .name {
+      font-size: 16px;
+      color: #666;
+      padding: 0 40px;
+    }
+    .price {
+      font-size: 16px;
+      color: @priceColor;
+      margin-top: 15px;
     }
   }
 }

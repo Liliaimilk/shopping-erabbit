@@ -18,8 +18,8 @@ export default {
 };
 </script>
 
-<style lang="less">
-.home-banner {
+<style lang="less" scoped>
+:deep(.home-banner) {
   width: 1240px;
   height: 500px;
   position: absolute;
@@ -27,8 +27,15 @@ export default {
   top: 0;
   z-index: 98;
   .xtx-carousel {
-    .carousel-indicator {
-      padding-left: 250px;
+    .carousel {
+      &-indicator {
+        padding-left: 250px;
+      }
+      &-btn {
+        &.prev {
+          left: 270px;
+        }
+      }
     }
   }
 }

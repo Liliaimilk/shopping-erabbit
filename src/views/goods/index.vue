@@ -29,17 +29,19 @@
           <GoodsName :goods="goods" />
           <!-- 规格组件 -->
           <GoodsSku :skuData="goods" />
+          <!-- 计数 -->
+          <XtxNumbox> </XtxNumbox>
+          <XtxButton type="primary">加入购物车</XtxButton>
         </div>
       </div>
       <!-- 商品推荐 -->
-      <GoodsRelevant />
+      <GoodsRelevant :goodsId="goods.id" />
       <!-- 商品详情 -->
       <div class="goods-footer">
         <div class="goods-article">
           <!-- 商品+评价 -->
-          <div class="goods-tabs"></div>
+          <GoodsTabs />
           <!-- 注意事项 -->
-          <div class="goods-warn"></div>
         </div>
         <!-- 24热榜+专题推荐 -->
         <div class="goods-aside"></div>
@@ -49,6 +51,7 @@
 </template>
 
 <script>
+import GoodsTabs from "./components/goods-tabs.vue";
 import GoodsRelevant from "./components/goods-relevant";
 import GoodsImage from "./components/goods-image.vue";
 import GoodsSales from "./components/goods-sales.vue";
@@ -59,7 +62,14 @@ import { findGoods } from "@/api/product";
 import { ref } from "vue";
 export default {
   name: "XtxGoodsPage",
-  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku },
+  components: {
+    GoodsRelevant,
+    GoodsImage,
+    GoodsSales,
+    GoodsName,
+    GoodsSku,
+    GoodsTabs,
+  },
   setup() {
     const goods = getGoods();
     console.log(goods);
@@ -113,5 +123,29 @@ const getGoods = () => {
   min-height: 600px;
   background: #fff;
   margin-top: 20px;
+}
+
+// 同类商品推荐
+:deep(.xtx-carousel) {
+  height: 380px;
+  .carousel {
+    &-indicator {
+      bottom: 30px;
+      span {
+        &.active {
+          background: @xtxColor;
+        }
+      }
+    }
+    &-btn {
+      top: 110px;
+      opacity: 1;
+      background: rgba(0, 0, 0, 0);
+      color: #ddd;
+      i {
+        font-size: 30px;
+      }
+    }
+  }
 }
 </style>

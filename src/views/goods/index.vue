@@ -44,7 +44,10 @@
           <!-- 注意事项 -->
         </div>
         <!-- 24热榜+专题推荐 -->
-        <div class="goods-aside"></div>
+        <div class="goods-aside">
+          <GoodsHot :id="goods.id" :isNumber="1" />
+          <GoodsHot :id="goods.id" :isNumber="2" />
+        </div>
       </div>
     </div>
   </div>
@@ -57,8 +60,9 @@ import GoodsImage from "./components/goods-image.vue";
 import GoodsSales from "./components/goods-sales.vue";
 import GoodsName from "./components/goods-name.vue";
 import GoodsSku from "./components/goods-sku.vue";
+import GoodsHot from "./components/goods-hot.vue";
 import { findGoods } from "@/api/product";
-// import { useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { ref } from "vue";
 export default {
   name: "XtxGoodsPage",
@@ -69,6 +73,7 @@ export default {
     GoodsName,
     GoodsSku,
     GoodsTabs,
+    GoodsHot,
   },
   setup() {
     const goods = getGoods();
@@ -79,8 +84,9 @@ export default {
 // 获取接口数据
 const getGoods = () => {
   const goods = ref(null);
-  // const route = useRoute();
-  findGoods("1369155859933827074").then((data) => {
+  const route = useRoute();
+  // sku固定id"1369155859933827074"
+  findGoods(route.params.id).then((data) => {
     console.log(data, "44");
     goods.value = data.result;
   });

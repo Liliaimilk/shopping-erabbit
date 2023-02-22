@@ -63,7 +63,7 @@ import GoodsSku from "./components/goods-sku.vue";
 import GoodsHot from "./components/goods-hot.vue";
 import { findGoods } from "@/api/product";
 import { useRoute } from "vue-router";
-import { ref } from "vue";
+import { provide, ref } from "vue";
 export default {
   name: "XtxGoodsPage",
   components: {
@@ -78,6 +78,7 @@ export default {
   setup() {
     const goods = getGoods();
     console.log(goods);
+    provide("goods", goods);
     return { goods };
   },
 };
@@ -132,7 +133,7 @@ const getGoods = () => {
 }
 
 // 同类商品推荐
-:deep(.xtx-carousel) {
+::v-deep(.xtx-carousel) {
   height: 380px;
   .carousel {
     &-indicator {

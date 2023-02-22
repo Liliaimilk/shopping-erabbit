@@ -11,19 +11,19 @@
         href="javascript:;"
         :class="{ active: isActive === 'comment' }"
         @click="changeStatus('comment')"
-        >商品评价<span>(500+)</span></a
+        >商品评价<span>({{ goods.commentCount }})</span></a
       >
     </nav>
     <!-- 切换内容的地方 -->
     <GoodsDetail v-if="isActive === 'detail'" />
-    <GoodsComment v-else />
+    <GoodsComment v-else :goodsId="goods.id" />
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import GoodsDetail from "./goods-detail.vue";
-import GoodsComment from "./goods-coment.vue";
+import GoodsComment from "./goods-comment.vue";
 export default {
   name: "GoodsTabs",
   components: {
@@ -35,7 +35,8 @@ export default {
     const changeStatus = (ctt) => {
       isActive.value = ctt;
     };
-    return { isActive, changeStatus };
+    const goods = inject("goods");
+    return { isActive, changeStatus, goods };
   },
 };
 </script>

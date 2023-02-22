@@ -19,14 +19,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-:deep(.home-banner) {
+.home-banner {
   width: 1240px;
   height: 500px;
   position: absolute;
   left: 0;
   top: 0;
   z-index: 98;
-  .xtx-carousel {
+  ::v-deep(.xtx-carousel) {
     .carousel {
       &-indicator {
         padding-left: 250px;

@@ -40,6 +40,13 @@
     <template v-for="item in commentList.items" :key="item.id">
       <GoodsList :commentInfo="item" />
     </template>
+    <div class="xtx-pagination">
+      <XtxPagination
+        :total="commentList.pages"
+        @changePage="getNewPages"
+        :currentPage="paramsData.page"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -67,6 +74,11 @@ export default {
       tag: null,
       sortField: null,
     });
+
+    // 根据子组件操作换页获取新页面数据
+    const getNewPages = (item) => {
+      paramsData.page = item;
+    };
     // 评价数据
     const goods = getEvaluteInfo(props.goodsId);
     const commentList = ref([]);
@@ -75,17 +87,17 @@ export default {
       index.value = ind;
       // 选项选择
       if (title === "有图") {
-        paramsData.value.hasPicture = true;
-        paramsData.value.tag = null;
+        paramsData.hasPicture = true;
+        paramsData.tag = null;
       } else if (title === "全部评价") {
-        paramsData.value.tag = null;
-        paramsData.value.hasPicture == null;
-        paramsData.value.sortField = "praiseCount";
+        paramsData.tag = null;
+        paramsData.hasPicture == null;
+        paramsData.sortField = "praiseCount";
       } else {
-        paramsData.value.hasPicture = null;
-        paramsData.value.tag = title;
+        paramsData.hasPicture = null;
+        paramsData.tag = title;
       }
-      paramsData.value.page = 1;
+      paramsData.page = 1;
     };
     // 监听数据改变
     watch(
@@ -105,14 +117,16 @@ export default {
       bindData(sort, "click", "A", function (event) {
         event.preventDefault();
         const target = event.target;
-        // console.log(event.target);
+        // console.log(event.target.nodeValue);
         // console.log(target.nodeName);
+        // console.log(target.innerText);
         if (target.nodeName === "A") {
           let sortAll = document.querySelectorAll(".sort>a");
           // 选项判定
-          if (target.nodeValue === "最新") {
+          if (target.innerText === "最新") {
+            console.log("1111");
             paramsData.sortField = "createTime";
-          } else if (target.nodeValue === "最热") {
+          } else if (target.innerText === "最热") {
             paramsData.sortField = "praiseCount";
           } else {
             paramsData.sortField = null;
@@ -127,7 +141,7 @@ export default {
         }
       });
     });
-    return { goods, selected, index, commentList };
+    return { goods, selected, index, commentList, getNewPages, paramsData };
   },
 };
 // 获取评论信息

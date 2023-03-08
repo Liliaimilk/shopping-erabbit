@@ -20,7 +20,12 @@ const routes = [{
         path: '/product/:id',
         component: () => import('@/views/goods/index.vue')
     }]
-}];
+},
+{
+    path: '/login',
+    component: () => import('@/views/login/index.vue')
+}
+];
 const router = createRouter({
     history: createWebHashHistory(),
     routes,

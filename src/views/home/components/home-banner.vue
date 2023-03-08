@@ -26,7 +26,7 @@ export default {
   left: 0;
   top: 0;
   z-index: 98;
-  ::v-deep(.xtx-carousel) {
+  :deep(.xtx-carousel) {
     .carousel {
       &-indicator {
         padding-left: 250px;

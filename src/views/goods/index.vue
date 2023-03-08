@@ -133,7 +133,7 @@ const getGoods = () => {
 }
 
 // 同类商品推荐
-::v-deep(.xtx-carousel) {
+:deep(.xtx-carousel) {
   height: 380px;
   .carousel {
     &-indicator {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Promise } from "core-js";
 import store from "@/store"
+import router from '@/router'
 const instance = axios.create({
     baseURL: 'https://apipc-xiaotuxian-front.itheima.net/',
     timeout: 5000,
@@ -35,6 +36,8 @@ instance.interceptors.response.use((response) => {
         // 返回登录页
         store.commit('user/setUser', {})
         // 获取传递参数
+        const fullPath = encodeURIComponent(router.currentRoute.value.fullPath)
+        router.push('/login?redirectUrl=' + fullPath)
     }
     return Promise.reject(error);
 })

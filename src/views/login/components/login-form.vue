@@ -9,6 +9,7 @@
       </a>
     </div>
     <Form
+      ref="formCom"
       class="form"
       :validation-schema="mySchema"
       autocomplete="off"
@@ -20,13 +21,16 @@
             <i class="iconfont icon-user"></i>
             <Field
               type="text"
-              name="username"
+              name="account"
               v-model="form.account"
               placeholder="请输入用户名或手机号"
               maxlength="20"
             />
           </div>
-          <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
+          <div class="error" v-if="errors.account">
+            <i class="iconfont icon-warning" />
+            {{ errors.account }}
+          </div>
         </div>
         <div class="form-item">
           <div class="input">
@@ -54,6 +58,9 @@
               placeholder="请输入手机号"
             />
           </div>
+          <div class="error" v-if="errors.mobile">
+            <i class="iconfont icon-warning" />{{ errors.mobile }}
+          </div>
         </div>
         <div class="form-item">
           <div class="input">
@@ -73,14 +80,15 @@
       </template>
       <div class="form-item">
         <div class="agree">
-          <XtxCheckbox v-model="form.isAgree" />
+          <!-- <XtxCheckbox v-model="form.isAgree" /> -->
+          <Field as="XtxCheckbox" name="isAgree" v-model="form.isAgree" />
           <span>我已同意</span>
           <a href="javascript:;">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:;">《服务条款》</a>
         </div>
       </div>
-      <a href="javascript:;" class="btn">登录</a>
+      <a href="javascript:;" class="btn" @click="login">登录</a>
     </Form>
     <!-- <From></From> -->
     <div class="action">
@@ -97,8 +105,10 @@
 </template>
 <script>
 import { Form, Field } from "vee-validate";
+// import { userAccountLogin } from "@/api/user.js";
+import { useStore } from "vuex";
 import schema from "@/vender/validateMobile";
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 export default {
   name: "LoginForm",
   components: {
@@ -106,6 +116,9 @@ export default {
     Field,
   },
   setup() {
+    const store = useStore();
+    // const { proxy } = getCurrentInstance();
+    const formCom = ref(null);
     // 是否短信登录
     const isMsgLogin = ref(false);
     // 表单信息对象
@@ -124,7 +137,31 @@ export default {
       code: schema.code,
       isAgree: schema.isAgree,
     };
-    return { isMsgLogin, form, mySchema };
+    // 监听切换登录和清除原数据
+    watch(isMsgLogin, () => {
+      // 还原数据
+      form.isAgree = true;
+      form.account = null;
+      form.password = null;
+      form.mobile = null;
+      form.code = null;
+      // 补充校验效果清除，Form组件提供resetForm()
+      formCom.value.resetForm();
+    });
+
+    // 登录
+    const login = async () => {
+      const valid = await formCom.value.validate();
+      console.log(valid, "138");
+      // 调用vuex方法
+      store.dispatch("user/login", {
+        account: form.account,
+        password: form.password,
+      });
+      // proxy.$message({ type: "error", text: "请输入正确的用户名或密码" });
+      // true | false;
+    };
+    return { isMsgLogin, form, mySchema, login, formCom };
   },
 };
 </script>

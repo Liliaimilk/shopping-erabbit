@@ -3,6 +3,7 @@
 // import XtxCarousel from "@/components/library/xtx-carousel.vue"
 // import XtxMore from "@/components/library/xtx-more.vue"
 import defaultImg from "@/assets/images/qrcode.jpg"
+import Message from './message'
 // import XtxBread from "@/components/library/xtx-bread.vue"
 // import XtxBreadItem from "@/components/library/xtx-bread-item.vue"
 // vue2.0插件写法要素：导出一个对象，有install函数，默认传入了Vue构造函数，Vue基础之上扩展
@@ -23,7 +24,10 @@ export default {
             // console.log(component, '22');
         })
         // 自定义指令
-        defineDirective(app)
+        defineDirective(app);
+
+        // /如果你想挂载全局的属性，能够通过组件实例调用的属性   this.$message
+        app.config.globalProperties.$message = Message// 原型函数
     }
 }
 

@@ -71,7 +71,9 @@
               v-model="form.code"
               placeholder="请输入验证码"
             />
-            <span class="code">发送验证码</span>
+            <span class="code" @click="send()" :class="{ disabled: timer }">{{
+              timer ? `${timer}s` : "发送验证码"
+            }}</span>
           </div>
           <div class="error" v-if="errors.code">
             <i class="iconfont icon-warning" />{{ errors.code }}
@@ -105,10 +107,11 @@
 </template>
 <script>
 import { Form, Field } from "vee-validate";
+import { userMobileLoginMsg } from "@/api/user.js";
 // import { userAccountLogin } from "@/api/user.js";
 import { useStore } from "vuex";
 import schema from "@/vender/validateMobile";
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, getCurrentInstance } from "vue";
 export default {
   name: "LoginForm",
   components: {
@@ -117,10 +120,12 @@ export default {
   },
   setup() {
     const store = useStore();
-    // const { proxy } = getCurrentInstance();
+    const { proxy } = getCurrentInstance();
     const formCom = ref(null);
     // 是否短信登录
     const isMsgLogin = ref(false);
+    // 计时器验证码
+    const timer = ref(null);
     // 表单信息对象
     const form = reactive({
       isAgree: true,
@@ -151,17 +156,46 @@ export default {
 
     // 登录
     const login = async () => {
-      const valid = await formCom.value.validate();
-      console.log(valid, "138");
-      // 调用vuex方法
-      store.dispatch("user/login", {
-        account: form.account,
-        password: form.password,
-      });
-      // proxy.$message({ type: "error", text: "请输入正确的用户名或密码" });
-      // true | false;
+      formCom.value.validate();
+      // console.log(valid, "138");
+      // 调用vuex方法 获取登录信息并本地缓存
+      // 用户验证
+      store.commit("user/setIsMsgLogin", isMsgLogin.value);
+      if (!isMsgLogin.value) {
+        store.dispatch("user/login", {
+          account: form.account,
+          password: form.password,
+        });
+      } else {
+        // 短信验证
+        store.dispatch("user/login", {
+          mobile: form.mobile,
+          code: form.code,
+        });
+      }
     };
-    return { isMsgLogin, form, mySchema, login, formCom };
+
+    // 验证码发送
+    const send = () => {
+      const valid = mySchema.mobile(form.mobile);
+      // console.log(valid);
+      // 判断
+      if (valid === true) {
+        userMobileLoginMsg(form.mobile).then(() => {
+          proxy.$message({ type: "success", text: "发送成功" });
+        });
+        timer.value = 30;
+        const codeVlidate = setInterval(() => {
+          timer.value -= 1;
+          if (!timer.value) {
+            clearInterval(codeVlidate);
+          }
+        }, 1000);
+      } else {
+        formCom.value.setFieldError("mobile", valid);
+      }
+    };
+    return { isMsgLogin, form, mySchema, login, formCom, send, timer };
   },
 };
 </script>

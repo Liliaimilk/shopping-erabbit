@@ -26,12 +26,15 @@
 
 <script>
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   name: "TopNav",
   setup() {
     const store = useStore();
+    const router = useRouter();
     const exit = () => {
-      store.state.user.profile.token = "";
+      store.commit("user/setName", {});
+      router.push("/login");
     };
     return { exit };
   },

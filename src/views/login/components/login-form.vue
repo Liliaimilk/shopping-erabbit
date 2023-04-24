@@ -94,10 +94,11 @@
     </Form>
     <!-- <From></From> -->
     <div class="action">
-      <img
+      <!-- <img
         src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
         alt=""
-      />
+      /> -->
+      <span id="qqLoginBtn"></span>
       <div class="url">
         <a href="javascript:;">忘记密码</a>
         <a href="javascript:;">免费注册</a>
@@ -106,12 +107,13 @@
   </div>
 </template>
 <script>
+import QC from "qc";
 import { Form, Field } from "vee-validate";
 import { userMobileLoginMsg } from "@/api/user.js";
 // import { userAccountLogin } from "@/api/user.js";
 import { useStore } from "vuex";
 import schema from "@/vender/validateMobile";
-import { reactive, ref, watch, getCurrentInstance } from "vue";
+import { reactive, ref, watch, getCurrentInstance, onMounted } from "vue";
 export default {
   name: "LoginForm",
   components: {
@@ -152,6 +154,12 @@ export default {
       form.code = null;
       // 补充校验效果清除，Form组件提供resetForm()
       formCom.value.resetForm();
+    });
+    onMounted(() => {
+      // 组件渲染完毕，使用QC生成QQ登录按钮
+      QC.Login({
+        btnId: "qqLoginBtn",
+      });
     });
 
     // 登录
